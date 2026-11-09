@@ -8,9 +8,7 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 from pathlib import Path
 
-# --- Логика очистки -------------------------------------------------------
-
-SHERB_FLAGS = 0x1 | 0x2 | 0x4  # без подтверждений, прогресса и звука
+SHERB_FLAGS = 0x1 | 0x2 | 0x4
 
 
 def empty_recycle_bin():
@@ -18,7 +16,6 @@ def empty_recycle_bin():
 
 
 def _size_of_folder(path: Path) -> int:
-    """Суммарный размер файлов в папке (до удаления)."""
     total = 0
     for f in path.rglob("*"):
         try:
@@ -30,12 +27,6 @@ def _size_of_folder(path: Path) -> int:
 
 
 def clear_folder(path: str) -> int:
-    """Удаляет содержимое папки, возвращает сколько байт освободилось.
-
-    Размер считается ДО удаления. Если что-то не удалилось из-за
-    блокировки (например, запущен браузер), это вернёт завышенную
-    оценку — это честно оговорено в отчёте.
-    """
     folder = Path(path)
     if not folder.exists():
         return 0
@@ -50,7 +41,7 @@ def clear_folder(path: str) -> int:
                 freed += item.stat().st_size
                 item.unlink()
         except (PermissionError, OSError):
-            pass  # файл занят — пропускаем
+            pass
     return freed
 
 
@@ -59,7 +50,6 @@ def local_app_cache(name: str) -> str:
 
 
 def group_name(key: str) -> str:
-    """Человекочитаемое имя браузера для отчёта."""
     return {
         "yandex": "Яндекс.Браузер",
         "chrome": "Google Chrome",
@@ -68,17 +58,11 @@ def group_name(key: str) -> str:
 
 
 def clear_browser_history(profile_dir: str) -> int:
-    """Удаляет файлы истории посещений (History*) в профиле браузера.
-
-    Возвращает количество удалённых файлов. Браузер должен быть закрыт,
-    иначе SQLite-файлы заняты и будут пропущены.
-    """
     removed = 0
     path = Path(local_app_cache(profile_dir))
     if not path.exists():
         return removed
 
-    # История хранится в файлах History и History-journal в корне профиля
     for name in ("History", "History-journal"):
         f = path / name
         try:
@@ -86,20 +70,14 @@ def clear_browser_history(profile_dir: str) -> int:
                 f.unlink()
                 removed += 1
         except PermissionError:
-            pass  # файл занят браузером
+            pass
     return removed
 
-
-# --- Сворачиваемая группа с под-галочками ---------------------------------
 
 BG = "#f4f5f7"
 
 
 class CollapsibleCheckGroup(tk.Frame):
-    """Группа чекбоксов: заголовок с галкой-«мастером» и стрелкой,
-    раскрывающей дополнительные галочки (кэш / история).
-    """
-
     def __init__(self, master, title, items):
         super().__init__(master, bg=BG)
         self._expanded = True
@@ -164,8 +142,8 @@ class CollapsibleCheckGroup(tk.Frame):
         any_checked = any(v.get() for v in self._item_vars.values())
         self.master_var.set(any_checked)
 
+# БРБРБРББРБ БЕЛИБЕРДА)))
 
-# --- Интерфейс ------------------------------------------------------------
 
 class CleanerApp(tk.Tk):
     def __init__(self):
@@ -251,9 +229,6 @@ class CleanerApp(tk.Tk):
         self.progress.start(12)
         self.status.config(text="Идёт очистка…")
 
-        # Очистку запускаем в отдельном потоке, чтобы окно не «замерзало».
-        # Результат передаётся в главный поток через очередь и after() —
-        # напрямую трогать Tk из фонового потока нельзя.
         self._result_queue = queue.Queue()
         threading.Thread(target=self._clean, daemon=True).start()
         self.after(100, self._poll_result)
