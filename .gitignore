@@ -1,0 +1,6 @@
+# Временные файлы сборки PyInstaller (self-contained exe в dist/ заливается)
+build/
+
+# Кэш Python
+__pycache__/
+*.pyc
