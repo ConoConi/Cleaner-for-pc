@@ -1,9 +1,9 @@
 Короче, это самый базовый и простой клинер для пк. Он может чистить кэш компьютера, корзину, временные файлы с историей посещений Яндекс.Браузера, Google Chrome и Microsoft Edge.
 Если вы обычный пользователь, вам нужно установить ТОЛЬКО "Cleaner.exe" Остальное вам попросту не нужно.
-<img width="925" height="281" alt="image" src="https://github.com/user-attachments/assets/8520cddb-cfbe-4b7d-a3a6-ee1a7c52affd" />
-нажмите на view raw
-<img width="1366" height="613" alt="image" src="https://github.com/user-attachments/assets/45061d62-c968-49f7-83e2-0dab48ae0871" />
-Скачивайте клинер только на рабочий стол, чтобы не потерять.
+<img width="918" height="55" alt="image" src="https://github.com/user-attachments/assets/d3dd3aaf-82f5-48a6-bdd6-98ba8fd97c73" />
+Нажмите на view raw/посмотреть исходный код
+<img width="1021" height="124" alt="image" src="https://github.com/user-attachments/assets/7323b308-73aa-455c-8b59-820f30479974" />
+Скачивайте клинер ТОЛЬКО на рабочий стол, чтобы не потерять.
 <img width="669" height="721" alt="image" src="https://github.com/user-attachments/assets/bf69b4be-36a8-450f-b097-f4baf542599f" />
 
 Так же может ругаться антивирусник и блокировать запуск не потому, что это вирус, а потому, что он требует права админа.
